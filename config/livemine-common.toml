@@ -1,0 +1,61 @@
+[npc]
+    # РњР°РєСЃРёРјСѓРј NPC РЅР° РІСЃС‘Рј СЃРµСЂРІРµСЂРµ (ACTIVE + SIMULATED + DORMANT).
+    maxTotalNpcs = 1000
+    # РњР°РєСЃРёРјСѓРј NPC РІ РѕРґРЅРѕР№ РґРµСЂРµРІРЅРµ.
+    maxNpcsPerVillage = 128
+    # РџРѕС‚РѕР»РѕРє ACTIVE NPC РЅР° РѕРґРЅРѕРіРѕ РёРіСЂРѕРєР°.
+    maxActivePerPlayer = 50
+    # РџРѕРґСЂРѕР±РЅС‹Р№ Р»РѕРі Brain (С‚РѕР»СЊРєРѕ РґР»СЏ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР°).
+    brainDebug = false
+    # РџРѕРєР°Р·С‹РІР°С‚СЊ СЃРїСЂР°РІРѕС‡РЅРёРє РїСЂРё РїРµСЂРІРѕРј РІС…РѕРґРµ.
+    showGuideOnFirstJoin = true
+
+[optimization]
+    # РђРґР°РїС‚РёРІРЅР°СЏ С‡Р°СЃС‚РѕС‚Р° С‚РёРєРѕРІ вЂ” РїРѕРґСЃС‚СЂР°РёРІР°РµС‚СЃСЏ РїРѕРґ TPS.
+    adaptiveTickRate = true
+    # Р‘Р°Р·РѕРІС‹Р№ РёРЅС‚РµСЂРІР°Р» СЃРёРјСѓР»СЏС†РёРё РІ С‚РёРєР°С….
+    simulationInterval = 200
+    # РЎРєРѕР»СЊРєРѕ SIMULATED NPC РѕР±СЂР°Р±Р°С‚С‹РІР°С‚СЊ Р·Р° РѕРґРёРЅ С‚РёРє.
+    batchPerTick = 12
+    # Р Р°РґРёСѓСЃ Р°РєС‚РёРІРЅРѕСЃС‚Рё РІ Р±Р»РѕРєР°С….
+    activeRadius = 96
+    # Р Р°РґРёСѓСЃ СЃРёРјСѓР»СЏС†РёРё РІ Р±Р»РѕРєР°С….
+    simulatedRadius = 256
+    # Р Р°РґРёСѓСЃ DORMANT.
+    dormantRadius = 1024
+    # TTL РєСЌС€Р° СЂРµСЃСѓСЂСЃРѕРІ РІ С‚РёРєР°С… (6000 = 5 РјРёРЅСѓС‚).
+    resourceCacheTtl = 6000
+
+[worldgen]
+    # Р’РєР»СЋС‡РёС‚СЊ РіРµРЅРµСЂР°С†РёСЋ РґРµСЂРµРІРµРЅСЊ LiveMine.
+    enableVillageGeneration = true
+    minVillages = 3
+    maxVillages = 5
+    minDistanceFromSpawn = 500
+    maxDistanceFromSpawn = 1000
+    minDistanceBetweenVillages = 300
+    npcPerNewVillage = 25
+
+[gameplay]
+    enableHolidays = true
+    enableVoting = true
+    enableEconomy = true
+    enableMigration = true
+    enableWeatherEffects = true
+    enableDiseases = true
+    enableWanderers = true
+    enableAbandonedVillages = true
+    villageDecayDays = 7
+
+[balance]
+    skillDecayPerDay = 0.1
+    skillRelearnMultiplierHigh = 2.0
+    skillRelearnMultiplierLow = 1.5
+    minTrustForGroup = 40
+    adultAgeDays = 7
+    elderlyAgeDays = 90
+
+[security]
+    maxPacketSizeBytes = 32768
+    maxPacketRatePerSecond = 20
+    allowClientStateChanges = false

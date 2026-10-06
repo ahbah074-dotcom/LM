@@ -1,0 +1,369 @@
+{
+  "project": {
+    "name": "LiveMine",
+    "modId": "livemine",
+    "version": "1.0.0",
+    "group": "com.livemine",
+    "minecraft": "1.21.11",
+    "neoforge": "21.11.42",
+    "java": 21,
+    "license": "MIT",
+    "authors": "LiveMine Team",
+    "rootPath": "C:\\Users\\Specnaz\\Desktop\\Python\\MINEDS",
+    "description": "Self-governing villages with intelligent NPCs"
+  },
+
+  "rootFiles": [
+    { "path": "build.gradle",           "type": "gradle",    "purpose": "Сборка (NeoForge moddev 2.0.144)" },
+    { "path": "settings.gradle",        "type": "gradle",    "purpose": "Имя проекта + foojay 0.9.0" },
+    { "path": "gradle.properties",      "type": "properties","purpose": "Версии MC/NF, mod_id, group" },
+    { "path": "gradlew",                "type": "shell",     "purpose": "Gradle wrapper (Linux/Mac)" },
+    { "path": "gradlew.bat",            "type": "batch",     "purpose": "Gradle wrapper (Windows)" },
+    { "path": ".gitignore",             "type": "git",       "purpose": "Исключения build/, run/, .gradle/" },
+    { "path": "LICENSE",                "type": "text",      "purpose": "MIT License" },
+    { "path": "README.md",              "type": "markdown",  "purpose": "Описание проекта" },
+    { "path": "generate_textures.py",   "type": "python",    "purpose": "Генератор 34 PNG" },
+    { "path": "generate_sounds.py",     "type": "python",    "purpose": "Генератор 15 OGG" },
+    { "path": "generate_logo.py",       "type": "python",    "purpose": "Генератор logo.png" }
+  ],
+
+  "gradleWrapper": {
+    "path": "gradle/wrapper/",
+    "files": [
+      "gradle-wrapper.jar",
+      "gradle-wrapper.properties"
+    ],
+    "note": "Создаётся командой: gradle wrapper --gradle-version 8.12"
+  },
+
+  "docs": {
+    "path": "docs/",
+    "files": [
+      { "path": "README.md",              "purpose": "Оглавление документации" },
+      { "path": "INSTRUCTIONS.md",         "purpose": "Установка, сборка, troubleshooting" },
+      { "path": "ADMIN_COMMANDS.md",       "purpose": "Все команды /livemine и /lm" },
+      { "path": "CONFIG_GUIDE.md",         "purpose": "Настройки .toml" },
+      { "path": "USAGE_GUIDE.md",          "purpose": "Руководство игрока" },
+      { "path": "NPC_LOGIC.md",            "purpose": "14 целей, 29 навыков" },
+      { "path": "SPECIFICATION.md",        "purpose": "Техническая спецификация" },
+      { "path": "CHANGELOG.md",            "purpose": "История версий" },
+      { "path": "ACCEPTANCE.md",           "purpose": "Протокол приёмки (45+ пунктов)" },
+      { "path": "API.md",                  "purpose": "API для сторонних модов" },
+      { "path": "PROJECT_STRUCTURE.md",    "purpose": "Дерево проекта" },
+      { "path": "SYSTEM_REQUIREMENTS.md",  "purpose": "Минимальные/рекомендуемые требования" }
+    ]
+  },
+
+  "java": {
+    "path": "src/main/java/com/livemine/",
+    "files": [
+
+      { "path": "LiveMineMod.java",           "purpose": "Точка входа @Mod" },
+      { "path": "LiveMineConfig.java",        "purpose": "ModConfigSpec (COMMON + CLIENT)" },
+      { "path": "ConfigManager.java",         "purpose": "Hot reload, кэш значений" },
+      { "path": "PersistenceManager.java",    "purpose": "Сохранение/загрузка на уровне мира" },
+      { "path": "LiveMineSavedData.java",     "purpose": "SavedData (NBT storage)" },
+
+      { "path": "NPCSkills.java",             "purpose": "29 навыков, plateau, забывание" },
+      { "path": "NamePool.java",              "purpose": "13 языков × 120+ имён" },
+      { "path": "Chronicle.java",             "purpose": "Хроника (20 типов событий)" },
+      { "path": "CollectiveMemory.java",      "purpose": "22 категории, 14 триггеров" },
+      { "path": "CemeteryManager.java",       "purpose": "Кладбища, CemeterySlot" },
+      { "path": "VillageManager.java",        "purpose": "Управление деревнями (singleton)" },
+      { "path": "VillageData.java",           "purpose": "Обёртка над NBT деревни" },
+      { "path": "ReputationManager.java",     "purpose": "Двойная шкала репутации" },
+      { "path": "HolidayManager.java",        "purpose": "12 праздников + конкурс" },
+      { "path": "MarriageManager.java",       "purpose": "Свадьбы, дети, 5%/день" },
+      { "path": "InheritanceManager.java",    "purpose": "Наследство: супруг→дети→родители" },
+      { "path": "DiseaseManager.java",        "purpose": "5 болезней, иммунитет 30 дней" },
+      { "path": "EconomyManager.java",        "purpose": "10 товаров, динамические цены" },
+
+      { "path": "entity/LiveNPCEntity.java",          "purpose": "Сущность NPC (Mob)" },
+      { "path": "entity/GraveStoneEntity.java",       "purpose": "Надгробие" },
+      { "path": "entity/GraveStoneDataAccessor.java", "purpose": "DataAccessor для надгробия" },
+
+      { "path": "registry/ModEntities.java",       "purpose": "EntityType: live_npc, grave_stone" },
+      { "path": "registry/ModBlocks.java",         "purpose": "15 блоков" },
+      { "path": "registry/ModBlockEntities.java",  "purpose": "11 BlockEntityType" },
+      { "path": "registry/ModItems.java",          "purpose": "11 предметов" },
+      { "path": "registry/ModSounds.java",         "purpose": "15 SoundEvent" },
+      { "path": "registry/ModCreativeTab.java",    "purpose": "Креативная вкладка" },
+
+      { "path": "ai/NPCBrain.java",                 "purpose": "14 целей" },
+      { "path": "ai/NPCRegistry.java",              "purpose": "UUID → LiveNPCEntity + chunk index" },
+      { "path": "ai/NPCActivityManager.java",       "purpose": "ACTIVE/SIMULATED/DORMANT/INACTIVE" },
+      { "path": "ai/AdaptiveTickRate.java",         "purpose": "4 tier, авто-подстройка TPS" },
+      { "path": "ai/BrainDebugger.java",            "purpose": "Логирование" },
+      { "path": "ai/BrainScheduler.java",           "purpose": "Бюджет наносекунд" },
+      { "path": "ai/AgentBrain.java",               "purpose": "Мозг доменного агента" },
+      { "path": "ai/AgentTask.java",                "purpose": "FSM задача агента" },
+      { "path": "ai/NPCSimulationTickHandler.java", "purpose": "Главный тик-хендлер (9 подсистем)" },
+      { "path": "ai/SimulationEngine.java",         "purpose": "SIMULATED-симуляция" },
+      { "path": "ai/TickDistributor.java",          "purpose": "Порции NPC" },
+      { "path": "ai/ResourceCache.java",            "purpose": "Кэш ресурсов по чанкам" },
+      { "path": "ai/PathCache.java",                "purpose": "Кэш путей, TTL 1200" },
+      { "path": "ai/NPCState.java",                 "purpose": "DTO состояния" },
+      { "path": "ai/NPCSpawner.java",               "purpose": "Спавн NPC" },
+      { "path": "ai/NPCRelationship.java",          "purpose": "Trust 0–100" },
+      { "path": "ai/NPCMemory.java",                "purpose": "256 + 64 критических" },
+      { "path": "ai/WorkGoalManager.java",          "purpose": "Макро-распределение работ" },
+
+      { "path": "ai/goals/WorkGoal.java",        "purpose": "Работа (MINING/LUMBER/FARM/SMITH)" },
+      { "path": "ai/goals/RestGoal.java",        "purpose": "Отдых у костра" },
+      { "path": "ai/goals/HealGoal.java",        "purpose": "Лечение в лазарете" },
+      { "path": "ai/goals/EatGoal.java",         "purpose": "Еда из инвентаря" },
+      { "path": "ai/goals/SocializeGoal.java",   "purpose": "Общение с другим NPC" },
+      { "path": "ai/goals/WanderGoal.java",      "purpose": "Случайное блуждание" },
+
+      { "path": "blocks/VillageCenterBlock.java",        "purpose": "Центр деревни" },
+      { "path": "blocks/VillageCenterBlockEntity.java",  "purpose": "BE центра" },
+      { "path": "blocks/CommunalFirePitBlock.java",      "purpose": "Костёр (lit true/false)" },
+      { "path": "blocks/CommunalFirePitBlockEntity.java","purpose": "BE костра" },
+      { "path": "blocks/StorageBlock.java",              "purpose": "Склад (27 слотов)" },
+      { "path": "blocks/StorageBlockEntity.java",        "purpose": "BE склада (Container)" },
+      { "path": "blocks/StorageWarehouseBlock.java",     "purpose": "Склад ресурсов" },
+      { "path": "blocks/StorageWarehouseBlockEntity.java","purpose": "BE склада (счётчики)" },
+      { "path": "blocks/WorkshopForgeBlock.java",        "purpose": "Кузница" },
+      { "path": "blocks/WorkshopForgeBlockEntity.java",  "purpose": "BE кузницы (fuel)" },
+      { "path": "blocks/FarmPlotBlock.java",             "purpose": "Огород" },
+      { "path": "blocks/FarmPlotBlockEntity.java",       "purpose": "BE огорода (9 слотов культур)" },
+      { "path": "blocks/InfirmaryBlock.java",            "purpose": "Лазарет" },
+      { "path": "blocks/InfirmaryBlockEntity.java",      "purpose": "BE лазарета (medicine)" },
+      { "path": "blocks/MagicTowerCoreBlock.java",       "purpose": "Ядро магической башни" },
+      { "path": "blocks/MagicTowerCoreBlockEntity.java", "purpose": "BE башни (mana)" },
+      { "path": "blocks/MarketStallBlock.java",          "purpose": "Торговая лавка" },
+      { "path": "blocks/MarketStallBlockEntity.java",    "purpose": "BE лавки (TradeEntry)" },
+      { "path": "blocks/CemeteryMarkerBlock.java",       "purpose": "Маркер кладбища" },
+      { "path": "blocks/CemeteryMarkerBlockEntity.java", "purpose": "BE кладбища (GraveRecord)" },
+      { "path": "blocks/TrophyDisplayBlock.java",        "purpose": "Витрина трофеев" },
+      { "path": "blocks/TrophyDisplayBlockEntity.java",  "purpose": "BE витрины (TrophyEntry)" },
+
+      { "path": "network/NetworkHandler.java",          "purpose": "PayloadRegistrar (3 пакета)" },
+      { "path": "network/NPCStatePacket.java",          "purpose": "S→C: состояние NPC" },
+      { "path": "network/NPCInteractionPayload.java",   "purpose": "C→S: клик по NPC" },
+      { "path": "network/VillageClientCache.java",      "purpose": "S→C: 1 пакет на деревню" },
+
+      { "path": "client/ClientSetup.java",              "purpose": "Регистрация клавиш/рендеров" },
+      { "path": "client/ClientEventHandler.java",       "purpose": "Клиентские события" },
+      { "path": "client/ClientTickHandler.java",        "purpose": "Первый вход → справочник" },
+      { "path": "client/VillageClientCacheStorage.java","purpose": "Клиентский кэш деревень" },
+      { "path": "client/render/NPCRenderer.java",       "purpose": "Рендер NPC (по профессии)" },
+      { "path": "client/render/GraveStoneRenderer.java","purpose": "Рендер надгробия" },
+      { "path": "client/gui/NPCStatusScreen.java",      "purpose": "GUI статуса NPC" },
+      { "path": "client/gui/InGameGuideScreen.java",    "purpose": "Экран справочника" },
+      { "path": "client/guide/GuideContent.java",       "purpose": "10 страниц справочника" },
+      { "path": "client/guide/GuideOpenHandler.java",   "purpose": "Клавиша G" },
+
+      { "path": "commands/LiveMineCommands.java",           "purpose": "/livemine и /lm" },
+      { "path": "commands/CommandRegistrationHandler.java", "purpose": "RegisterCommandsEvent" },
+
+      { "path": "domain/Goal.java",             "purpose": "11 направлений + utility" },
+      { "path": "domain/Needs.java",            "purpose": "food/rest/safety" },
+      { "path": "domain/SimulationMode.java",   "purpose": "ACTIVE/VIRTUAL/DORMANT" },
+      { "path": "domain/AgentRecord.java",      "purpose": "Доменная запись агента" },
+      { "path": "domain/ModeController.java",   "purpose": "Переключение режимов" },
+      { "path": "domain/VillageRecord.java",    "purpose": "Доменная запись деревни" },
+      { "path": "domain/NavigationArbiter.java","purpose": "Аренда точек навигации" },
+      { "path": "domain/NavigationLease.java",  "purpose": "TTL аренды" },
+
+      { "path": "navigation/NavigationSystem.java", "purpose": "Обёртка навигации NPC" },
+
+      { "path": "task/TaskType.java",            "purpose": "17 типов работ" },
+      { "path": "task/TaskStateMachine.java",    "purpose": "FSM задач с retry" },
+
+      { "path": "economy/TransactionJournal.java", "purpose": "8 типов транзакций" },
+
+      { "path": "weather/WeatherHandler.java",  "purpose": "Погода, пожары" },
+
+      { "path": "voting/VotingManager.java",    "purpose": "5 типов голосований" },
+      { "path": "voting/ElectionManager.java",  "purpose": "Выборы лидера" },
+
+      { "path": "wanderer/WandererManager.java", "purpose": "Странники" },
+
+      { "path": "abandoned/AbandonedVillageManager.java", "purpose": "3 стадии разрушения" },
+
+      { "path": "property/PropertyManager.java", "purpose": "Дом, работа, сундуки" },
+
+      { "path": "pet/PetManager.java",           "purpose": "Собака/кошка/лошадь/попугай" },
+
+      { "path": "building/BuildingSystem.java",  "purpose": "18 типов зданий" },
+
+      { "path": "recipe/RecipeSafetyPolicy.java","purpose": "Запрет опасных рецептов" },
+
+      { "path": "compat/CreateIntegration.java", "purpose": "3 схемы Create" },
+      { "path": "compat/MagicIntegration.java",  "purpose": "Iron's Spells + Ars Nouveau" },
+
+      { "path": "dimension/DimensionExpedition.java","purpose": "Незер/Энд экспедиции" },
+
+      { "path": "world/VillageSpawner.java",  "purpose": "3–5 деревень при старте" },
+      { "path": "world/ScoutManager.java",    "purpose": "Разведка радиуса 2000" },
+      { "path": "world/RoadPlanner.java",     "purpose": "A* дороги" },
+      { "path": "world/CaravanManager.java",  "purpose": "Караваны 500 бл/день" },
+
+      { "path": "diplomacy/DiplomacyManager.java", "purpose": "4 состояния отношений" },
+      { "path": "diplomacy/AllianceManager.java",  "purpose": "Альянсы + дороги" },
+      { "path": "diplomacy/WarManager.java",       "purpose": "5 причин войны" },
+      { "path": "diplomacy/MailManager.java",      "purpose": "Почта через гонцов" },
+
+      { "path": "family/DynastyManager.java",     "purpose": "Династии 3+ поколений" },
+
+      { "path": "leadership/LeadershipManager.java","purpose": "5 ролей" },
+
+      { "path": "orphan/OrphanManager.java",       "purpose": "Сироты и опекуны" },
+      { "path": "education/EducationManager.java", "purpose": "Школы 4/8/12" },
+
+      { "path": "quest/QuestManager.java",             "purpose": "10 типов квестов" },
+      { "path": "achievement/AchievementManager.java", "purpose": "13 достижений" },
+      { "path": "diary/DiaryManager.java",             "purpose": "Дневник игрока" },
+      { "path": "debt/DebtManager.java",               "purpose": "Долги, 30 дней" },
+      { "path": "ranking/RankingManager.java",         "purpose": "Рейтинг деревень" },
+
+      { "path": "territory/TerritoryManager.java", "purpose": "Границы" },
+      { "path": "temple/TempleManager.java",       "purpose": "5 типов ритуалов" },
+      { "path": "library/LibraryManager.java",     "purpose": "5 типов книг" },
+
+      { "path": "crafting/CraftManager.java",   "purpose": "5 тиров инструментов" },
+      { "path": "crafting/CookingManager.java", "purpose": "7 рецептов еды" },
+
+      { "path": "simulation/SimulatedAgent.java","purpose": "Упрощённая симуляция" },
+
+      { "path": "localization/LocalizationManager.java","purpose": "13 языков, RTL" },
+      { "path": "sound/SoundManager.java",              "purpose": "15 звуков" },
+      { "path": "ui/UIRenderer.java",                   "purpose": "Полоски, панели" },
+      { "path": "api/APIManager.java",                  "purpose": "API для модов" },
+      { "path": "crash/CrashHandler.java",              "purpose": "Backup, recovery" },
+
+      { "path": "util/NotificationManager.java",  "purpose": "9 типов уведомлений" },
+      { "path": "util/ProfilingManager.java",     "purpose": "TPS, память" },
+      { "path": "util/ServerLifecycleHandler.java","purpose": "Старт/стоп сервера" },
+
+      { "path": "migration/MigrationManager.java",   "purpose": "Миграции схемы" },
+      { "path": "migration/MigrationStep.java",      "purpose": "Шаг миграции" },
+      { "path": "migration/MigrationException.java", "purpose": "Исключение" },
+      { "path": "migration/SchemaVersion.java",      "purpose": "5 версий" }
+    ]
+  },
+
+  "resources": {
+    "path": "src/main/resources/",
+    "meta": [
+      { "path": "META-INF/neoforge.mods.toml", "purpose": "Манифест мода" }
+    ],
+    "root": [
+      { "path": "pack.mcmeta",         "purpose": "pack_format [94,1]" },
+      { "path": "livemine_logo.png",   "purpose": "Логотип 256×256" },
+      { "path": "mod_compat.json",     "purpose": "Совместимость, языки, performance" }
+    ],
+    "assets": {
+      "path": "assets/livemine/",
+      "lang": [
+        "ru_ru.json", "en_us.json", "fr_fr.json", "de_de.json",
+        "ar_sa.json", "zh_cn.json", "hi_in.json", "es_es.json",
+        "bn_in.json", "pt_br.json", "fa_ir.json", "el_gr.json",
+        "grc_gr.json"
+      ],
+      "blockstates": [
+        "village_center.json", "communal_fire_pit.json",
+        "storage.json", "storage_warehouse.json",
+        "workshop_forge.json", "farm_plot.json",
+        "infirmary.json", "magic_tower_core.json",
+        "market_stall.json", "cemetery_marker.json",
+        "trophy_display.json", "village_road.json",
+        "village_bridge.json", "village_fence.json"
+      ],
+      "models": {
+        "block": [
+          "village_center.json", "communal_fire_pit.json",
+          "communal_fire_pit_off.json", "storage.json",
+          "storage_warehouse.json", "workshop_forge.json",
+          "farm_plot.json", "infirmary.json",
+          "magic_tower_core.json", "market_stall.json",
+          "cemetery_marker.json", "trophy_display.json",
+          "village_road.json", "village_bridge.json",
+          "village_fence.json"
+        ],
+        "item": [
+          "live_npc_spawn_egg.json", "grave_stone_spawn_egg.json",
+          "livemine_guide.json", "expedition_compass.json",
+          "expedition_map.json", "village_chronicle.json",
+          "npc_name_tag.json", "reputation_badge.json",
+          "heart_item.json", "firework_custom.json",
+          "spell_scroll_t1.json", "spell_scroll_t2.json",
+          "spell_scroll_t3.json",
+          "village_center.json", "communal_fire_pit.json",
+          "storage.json", "storage_warehouse.json",
+          "workshop_forge.json", "farm_plot.json",
+          "infirmary.json", "magic_tower_core.json",
+          "market_stall.json", "cemetery_marker.json",
+          "trophy_display.json", "village_road.json",
+          "village_bridge.json", "village_fence.json"
+        ]
+      },
+      "textures": {
+        "block": [
+          "village_center.png", "communal_fire_pit.png",
+          "communal_fire_pit_off.png", "storage.png",
+          "storage_warehouse.png", "workshop_forge.png",
+          "farm_plot.png", "infirmary.png",
+          "magic_tower_core.png", "market_stall.png",
+          "cemetery_marker.png", "trophy_display.png",
+          "village_road.png", "village_bridge.png",
+          "village_fence.png"
+        ],
+        "item": [
+          "livemine_guide.png", "expedition_compass.png",
+          "expedition_map.png", "village_chronicle.png",
+          "npc_name_tag.png", "reputation_badge.png",
+          "heart_item.png", "firework_custom.png",
+          "spell_scroll_t1.png", "spell_scroll_t2.png",
+          "spell_scroll_t3.png"
+        ],
+        "entity": {
+          "npc": [
+            "default.png", "farmer.png", "guard.png",
+            "merchant.png", "miner.png", "priest.png", "child.png"
+          ],
+          "root": [
+            "grave_stone.png"
+          ]
+        }
+      },
+      "sounds": [
+        "npc_work.ogg", "npc_rest.ogg", "npc_eat.ogg",
+        "npc_social.ogg", "npc_hurt.ogg", "npc_death.ogg",
+        "npc_greeting.ogg", "block_place.ogg", "block_break.ogg",
+        "village_bell.ogg", "holiday_cheer.ogg",
+        "building_hammer.ogg", "magic_cast.ogg",
+        "wedding.ogg", "festival.ogg"
+      ],
+      "soundsJson": "sounds.json"
+    }
+  },
+
+  "statistics": {
+    "javaFiles": 118,
+    "jsonFiles": 55,
+    "pngFiles": 34,
+    "oggFiles": 15,
+    "markdownFiles": 22,
+    "pythonFiles": 3,
+    "otherFiles": 6,
+    "totalFiles": 253,
+    "totalJavaLines": 28000
+  },
+
+  "buildOutput": {
+    "jarPath": "build/libs/livemine-1.0.0.jar",
+    "sourcesJar": "build/libs/livemine-1.0.0-sources.jar"
+  },
+
+  "runCommands": {
+    "setupGradle": "gradle wrapper --gradle-version 8.12",
+    "build": ".\\gradlew.bat build",
+    "runClient": ".\\gradlew.bat runClient",
+    "runServer": ".\\gradlew.bat runServer",
+    "generateTextures": "python generate_textures.py",
+    "generateSounds": "python generate_sounds.py",
+    "generateLogo": "python generate_logo.py"
+  }
+}

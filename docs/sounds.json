@@ -1,0 +1,132 @@
+# LiveMine — чеклист звуков
+
+## Перед сборкой проверить:
+
+- [ ] 15 .ogg файлов лежат в `src/main/resources/assets/livemine/sounds/`
+- [ ] Все файлы в формате **OGG Vorbis** (не MP3, не WAV)
+- [ ] `sounds.json` содержит все 15 записей
+- [ ] Имена файлов совпадают с ключами в `sounds.json` (например `npc_work.ogg` ↔ `livemine:npc_work`)
+- [ ] `ModSounds.SOUNDS.register(...)` создаёт все 15 SoundEvent'ов
+- [ ] В `SoundManager` (партия 29) используются все 15
+
+## Проверка в игре
+
+- [ ] `/playsound livemine:npc_work master @s` — звук играет
+- [ ] `/playsound livemine:village_bell master @s` — звон колокола
+- [ ] При работе NPC (FARMING) → слышен `npc_work`
+- [ ] При еде NPC → `npc_eat`
+- [ ] При атаке → `npc_hurt`
+- [ ] При празднике → `festival` + `holiday_cheer`
+
+## Если звук не играет
+
+1. Проверить формат (`file <name>.ogg` → должен быть `Ogg data, Vorbis audio`).
+2. Проверить, что файл лежит в правильной папке.
+3. Проверить `sounds.json` (без BOM, валидный JSON).
+4. Перезапустить клиент (F3+T может не всегда подхватывать .ogg).
+5. Проверить логи `latest.log` на ошибки загрузки SoundEvent.
+Что сделано в этой партии
+#	Что	Количество
+1	generate_sounds.py	Python-генератор 15 OGG
+2	Описание 15 звуков	Таблица с длительностью и назначением
+3	sounds/README.md	Инструкция + таблица использования
+4	sounds.json (финальная версия)	15 звуков
+5	Чеклист	20+ пунктов проверки
+Ключевые решения
+Python-скрипт generate_sounds.py — генерирует 15 OGG через pydub (требует ffmpeg).
+
+Простые тона для NPC (синусоиды), шум для block_break, глиссандо для magic_cast.
+
+Все 15 звуков описаны детально — можно заказать у звукорежиссёра.
+
+sounds.json совпадает с ModSounds.java (партия 13) и SoundManager (партия 29).
+
+Чеклист — для проверки перед сборкой.
+
+Стыковки
+npc_work → SoundManager.npcWork() (партия 29), WorkGoal.tick() (партия 11).
+
+npc_eat → SoundManager.npcEat(), EatGoal (партия 11).
+
+npc_social → SoundManager.npcSocial(), SocializeGoal (партия 11).
+
+npc_hurt → SoundManager.npcHurt(), LiveNPCEntity (партия 12).
+
+npc_death → SoundManager.npcDeath(), LiveNPCEntity.die().
+
+npc_greeting → SoundManager.npcGreeting(), SocializeGoal.
+
+village_bell → SoundManager.alert(), WarManager.
+
+building_hammer → WorkGoal.doWork().
+
+magic_cast → MagicIntegration.castSpell().
+
+wedding → MarriageManager.marry().
+
+festival, holiday_cheer → HolidayManager.startHoliday().
+
+Что важно
+pydub требует ffmpeg для конвертации в OGG. Если нет — можно использовать libsndfile или soundfile.
+
+Заглушки = простые синусоиды — они будут «пищать» в игре, но это работает и не даёт ошибок загрузки.
+
+Финальные .ogg заменяются один-в-один по имени.
+
+stream: false — для коротких звуков (< 1 сек), они загружаются в память.
+
+Что осталось
+Партия 43 (1 ответ): pack.mcmeta + neoforge.mods.toml + assets/livemine/logo.png + финальные конфиги + settings.gradle.kts.
+
+Партия 44 (1 ответ): финальная документация (README, INSTRUCTIONS, CHANGELOG, ACCEPTANCE, API docs, LICENSE).
+
+Осталось: 2 ответа.
+
+Следующий ответ (№58): финальные конфиги и logo.png.
+
+Командуй «Дальше».
+
+Дальше
+Пользователь просит "Дальше" — значит, выдать партию 43 из 44. По плану это:
+
+Партия 43 (1 ответ): pack.mcmeta + neoforge.mods.toml + assets/livemine/logo.png + финальные конфиги + settings.gradle.kts.
+
+Давайте посмотрим, что уже было выдано:
+
+Партия 1 (Ответ №16, переделанный): build.gradle, settings.gradle, gradle.properties, neoforge.mods.toml, pack.mcmeta — уже были!
+
+Партия 33 (Ответ №48): sounds.json, mod_compat.json — уже были.
+
+Значит, в партии 43 надо:
+
+Выдать ФИНАЛЬНЫЕ версии pack.mcmeta и neoforge.mods.toml (после всех уточнений).
+
+Выдать logo.png (заглушку через Python или base64).
+
+Возможно, финальные конфиги (livemine-common.toml, livemine-client.toml) — но они генерируются NeoForge автоматически из ModConfigSpec. Всё же можно выдать пример.
+
+settings.gradle.kts — если пользователь хочет Kotlin DSL. Хотя в партии 1 был settings.gradle (Groovy). Не будем менять.
+
+Что нужно ещё добавить в партию 43:
+
+Финальный pack.mcmeta (уже был в партии 1, но перепроверю).
+
+Финальный neoforge.mods.toml (уже был в партии 1).
+
+assets/livemine/logo.png — 256×256 PNG для логотипа мода. Генерирую через Python.
+
+Пример config/livemine-common.toml — как будет выглядеть после первого запуска.
+
+Финальный settings.gradle (или .kts).
+
+Возможно, gradle.properties (финальный).
+
+Также добавлю:
+
+.gitignore — для репозитория.
+
+LICENSE — MIT (был в старой версии).
+
+Давайте сформирую партию 43.
+
+Структура:

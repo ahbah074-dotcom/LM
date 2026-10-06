@@ -1,0 +1,179 @@
+ *
+ * Структура:
+ *   - npc_data         : Map<UUID, CompoundTag>
+ *   - village_data     : Map<String, CompoundTag>
+ *   - abandoned_data   : Map<String, CompoundTag>
+ *   - reputation_data  : CompoundTag
+ *   - global_data      : CompoundTag (schema_version, stats)
+ */
+public class LiveMineSavedData extends SavedData {
+
+    public static final String DATA_NAME = "livemine_data";
+
+    private final Map<UUID, CompoundTag> npcData = new HashMap<>();
+    private final Map<String, CompoundTag> villageData = new HashMap<>();
+    private final Map<String, CompoundTag> abandonedData = new HashMap<>();
+    private CompoundTag reputationData = new CompoundTag();
+    private CompoundTag globalData = new CompoundTag();
+
+    public LiveMineSavedData() {
+    }
+
+    public LiveMineSavedData(CompoundTag tag, HolderLookup.Provider provider) {
+        loadFromTag(tag);
+    }
+
+    public static LiveMineSavedData get(ServerLevel level) {
+        return level.getDataStorage().computeIfAbsent(
+            new SavedData.Factory<>(
+                LiveMineSavedData::new,
+                (tag, provider) -> new LiveMineSavedData(tag, provider),
+                null
+            ),
+            DATA_NAME
+        );
+    }
+
+    public CompoundTag loadNPCData(UUID uuid) {
+        return npcData.getOrDefault(uuid, new CompoundTag());
+    }
+
+    public void saveNPCData(UUID uuid, CompoundTag data) {
+        npcData.put(uuid, data);
+        setDirty();
+    }
+
+    public void removeNPCData(UUID uuid) {
+        npcData.remove(uuid);
+        setDirty();
+    }
+
+    public boolean hasNPCData(UUID uuid) {
+        return npcData.containsKey(uuid);
+    }
+
+    public Map<UUID, CompoundTag> getAllNpcData() {
+        return npcData;
+    }
+
+    public int getNpcCount() {
+        return npcData.size();
+    }
+
+    public CompoundTag loadVillageData(String villageId) {
+        return villageData.getOrDefault(villageId, new CompoundTag());
+    }
+
+    public void saveVillageData(String villageId, CompoundTag data) {
+        villageData.put(villageId, data);
+        setDirty();
+    }
+
+    public void removeVillageData(String villageId) {
+        villageData.remove(villageId);
+        setDirty();
+    }
+
+    public Map<String, CompoundTag> getAllVillageData() {
+        return villageData;
+    }
+
+    public int getVillageCount() {
+        return villageData.size();
+    }
+
+    public CompoundTag loadAbandonedVillage(String villageId) {
+        return abandonedData.getOrDefault(villageId, new CompoundTag());
+    }
+
+    public void saveAbandonedVillage(String villageId, CompoundTag data) {
+        abandonedData.put(villageId, data);
+        setDirty();
+    }
+
+    public void removeAbandonedVillage(String villageId) {
+        abandonedData.remove(villageId);
+        setDirty();
+    }
+
+    public CompoundTag loadReputationData() {
+        return reputationData;
+    }
+
+    public void saveReputationData(CompoundTag data) {
+        this.reputationData = data;
+        setDirty();
+    }
+
+    public CompoundTag getGlobalData() {
+        return globalData;
+    }
+
+    public void setGlobalData(CompoundTag tag) {
+        this.globalData = tag;
+        setDirty();
+    }
+
+    public int getSchemaVersion() {
+        return globalData.getInt("schema_version");
+    }
+
+    public void setSchemaVersion(int version) {
+        globalData.putInt("schema_version", version);
+        setDirty();
+    }
+
+    @Override
+    public CompoundTag save(CompoundTag tag, HolderLookup.Provider provider) {
+        CompoundTag npcTag = new CompoundTag();
+        for (Map.Entry<UUID, CompoundTag> entry : npcData.entrySet()) {
+            npcTag.put(entry.getKey().toString(), entry.getValue());
+        }
+        tag.put("npc_data", npcTag);
+
+        CompoundTag villageTag = new CompoundTag();
+        for (Map.Entry<String, CompoundTag> entry : villageData.entrySet()) {
+            villageTag.put(entry.getKey(), entry.getValue());
+        }
+        tag.put("village_data", villageTag);
+
+        CompoundTag abandonedTag = new CompoundTag();
+        for (Map.Entry<String, CompoundTag> entry : abandonedData.entrySet()) {
+            abandonedTag.put(entry.getKey(), entry.getValue());
+        }
+        tag.put("abandoned_data", abandonedTag);
+
+        tag.put("reputation_data", reputationData);
+        tag.put("global_data", globalData);
+
+        return tag;
+    }
+
+    private void loadFromTag(CompoundTag tag) {
+        CompoundTag npcTag = tag.getCompound("npc_data");
+        for (String key : npcTag.getAllKeys()) {
+            try {
+                UUID uuid = UUID.fromString(key);
+                npcData.put(uuid, npcTag.getCompound(key));
+            } catch (IllegalArgumentException ignored) {
+            }
+        }
+
+        CompoundTag villageTag = tag.getCompound("village_data");
+        for (String key : villageTag.getAllKeys()) {
+            villageData.put(key, villageTag.getCompound(key));
+        }
+
+        CompoundTag abandonedTag = tag.getCompound("abandoned_data");
+        for (String key : abandonedTag.getAllKeys()) {
+            abandonedData.put(key, abandonedTag.getCompound(key));
+        }
+
+        reputationData = tag.getCompound("reputation_data");
+        globalData = tag.getCompound("global_data");
+
+        if (globalData.getInt("schema_version") == 0) {
+            globalData.putInt("schema_version", com.livemine.migration.SchemaVersion.LATEST);
+        }
+    }
+}

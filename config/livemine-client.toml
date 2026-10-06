@@ -1,0 +1,15 @@
+[client]
+    # Включить звуки мода.
+    enableSounds = true
+    # Громкость звуков мода (0.0–1.0).
+    soundVolume = 0.5
+    # Показывать имена NPC.
+    showNpcNames = true
+    # Показывать полоску здоровья над NPC.
+    showNpcHealthBar = true
+    # Дистанция рендера NPC (в блоках).
+    npcRenderDistance = 80
+    # Длительность уведомлений (сек).
+    notificationDuration = 5
+    # Показывать пузыри мыслей над NPC.
+    showThoughtBubbles = true
